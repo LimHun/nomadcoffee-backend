@@ -1,4 +1,4 @@
-import client from "../client";
+import client from "../../client";
 import bcrypt from "bcrypt";
 
 export default {
@@ -6,9 +6,9 @@ export default {
 		createAccount: async (
 			_,
 			{
-				username,
-				email,
 				name,
+				email,
+				username,
 				location,
 				avatarURL,
 				githubUsername,
@@ -20,7 +20,7 @@ export default {
 					where: {
 						OR: [
 							{
-								username,
+								name,
 							},
 							{
 								email,
@@ -28,9 +28,9 @@ export default {
 						],
 					},
 				});
-				if (existingUser != null) {
+				if (existingUser) {
 					console.log("이미 존재하는 username 또는 email 입니다.");
-					return false;
+					throw new Error("This username/password is already taken.");
 				}
 				console.log(existingUser);
 				const uglyPassword = await bcrypt.hash(password, 10);
