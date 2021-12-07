@@ -7,7 +7,7 @@ const server = new ApolloServer({
 	schema,
 	context: async ({ req }) => {
 		return {
-			loggedInUser: await getUser(req.header.token),
+			loggedInUser: await getUser(req.headers.token),
 		};
 	},
 });

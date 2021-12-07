@@ -3,7 +3,6 @@ import client from "../client";
 
 export const getUser = async (token) => {
 	try {
-		console.log(token);
 		if (!token) {
 			return null;
 		}
@@ -19,9 +18,8 @@ export const getUser = async (token) => {
 	}
 };
 
-export function protectedResolver(ourResolver) {
-	return function (root, args, context, info) {
-		console.log(context);
+export const protectedResolver =
+	(ourResolver) => (root, args, context, info) => {
 		if (!context.loggedInUser) {
 			return {
 				ok: false,
@@ -30,4 +28,3 @@ export function protectedResolver(ourResolver) {
 		}
 		return ourResolver(root, args, context, info);
 	};
-}
